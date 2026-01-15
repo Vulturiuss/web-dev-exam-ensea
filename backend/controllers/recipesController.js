@@ -30,7 +30,15 @@ export const getRecipes = (req, res) => {
 
 export const getRecipeById = (req, res) => {
 	try {
-		// Votre code ici
+		const recipes = readRecipes(recipesPath)
+		const id = req.params.id
+		const recipe = recipes.find((item) => item.id === parseInt(id))
+
+		if (recipe) {
+			res.json(recipe)
+		} else {
+			res.status(404).json({ error: "Recette non trouvée" })
+		}
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
@@ -51,7 +59,11 @@ export const getRecipeById = (req, res) => {
 
 export const createRecipe = (req, res) => {
 	try {
-		// Votre code ici
+		const recipes = readRecipes(recipesPath)
+		const newRecipe = { id: Date.now(), ...req.body }
+		recipes.push(newRecipe)
+		writeRecipes(recipes, recipesPath)
+		res.status(201).json(newRecipe)
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
@@ -73,7 +85,18 @@ export const createRecipe = (req, res) => {
 
 export const updateRecipe = (req, res) => {
 	try {
-		// Votre code ici
+		const recipes = readRecipes(recipesPath)
+		const id = req.params.id
+		const index = recipes.findIndex((recipe) => recipe.id === parseInt(id))
+
+		if (index === -1) {
+			res.status(404).json({ error: "Recette non trouvée" })
+			return
+		}
+
+		recipes[index] = { ...recipes[index], ...req.body, id: parseInt(id) }
+		writeRecipes(recipes, recipesPath)
+		res.json(recipes[index])
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
@@ -94,7 +117,18 @@ export const updateRecipe = (req, res) => {
 
 export const deleteRecipe = (req, res) => {
 	try {
-		// Votre code ici
+		const recipes = readRecipes(recipesPath)
+		const id = req.params.id
+		const index = recipes.findIndex((recipe) => recipe.id === parseInt(id))
+
+		if (index === -1) {
+			res.status(404).json({ error: "Recette non trouvée" })
+			return
+		}
+
+		const updatedRecipes = recipes.filter((recipe) => recipe.id !== parseInt(id))
+		writeRecipes(updatedRecipes, recipesPath)
+		res.status(200).json({ message: "Recette supprimée avec succès" })
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
