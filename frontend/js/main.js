@@ -108,7 +108,7 @@ export const handleAddRecipe = async (event) => {
 			.filter((line) => line !== "") // TODO: récupérer la valeur du champ recipeIngredients
 		const instructions = document.getElementById("recipeInstructions").value // TODO: récupérer la valeur du champ recipeInstructions
 		const prepTime = parseInt(document.getElementById("recipePrepTime").value) // TODO: récupérer la valeur du champ recipePrepTime (convertir en nombre avec parseInt)
-		const imageUrl = document.getElementById("recipeImageUrl").value // TODO: récupérer la valeur du champ recipeImageUrl
+		const imageUrl = document.getElementById("imageUrl").value // TODO: récupérer la valeur du champ recipeImageUrl
 
 
 		// TODO 3: Créer un objet recette avec les données récupérées
