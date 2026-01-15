@@ -41,7 +41,7 @@ export const renderRecipeCard = (recipe) => {
 	}
 	// Image de couverture : on utilise l'URL fournie ou une image par défaut
 	const imageUrl =
-		recipe.imageUrl ||
+		recipe.imageUrl ||recipe.image ||
 		"https://images.pexels.com/photos/5190684/pexels-photo-5190684.jpeg"
 
 	return `
